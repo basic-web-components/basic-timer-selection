@@ -1,0 +1,50 @@
+<!--
+An aspect which provides for automatic timed changes in selection, as in a
+automated slideshow.
+
+@element basic-timer-selection
+-->
+
+<link rel="import" href="../basic-aspect/basic-aspect.html">
+
+<script>
+Polymer(mixin(BasicAspectMixin, {
+
+  contribute: {
+
+    contentChanged: function() {
+      this.play();
+    },
+
+    /**
+     * Begin automatic progression of the selection.
+     *
+     * @method play
+     */
+    play: function() {
+      if (this._interval) {
+        clearInterval(this._interval);
+      }
+      this._interval = setInterval(function() {
+        // TODO: Wrap
+        if (this.selectedIndex == null || this.selectedIndex === this.items.length - 1) {
+          this.selectFirst();
+        } else {
+          this.selectNext();
+        }
+      }.bind(this), 2000);
+    }
+
+  },
+
+  is: 'basic-timer-selection',
+
+  ready: function() {
+    this.play();
+  },
+
+  selectFirst: function() {},
+  selectNext: function() {}
+
+}));
+</script>
